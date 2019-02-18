@@ -12,7 +12,20 @@ read_xdc bitconfig.xdc
 set_property TARGET_LANGUAGE VHDL [current_project]
 set_property PART xc7a35tcpg236-2 [current_project]
 
-#read_ip file.xci
+read_ip pcie_7x_0.xci
+generate_target all [get_ips]
+synth_ip [get_ips]
+
+generate_target example [get_files pcie_7x_0.xci]
+read_vhdl example_design/EP_MEM.vhd
+read_vhdl example_design/PIO.vhd
+read_vhdl example_design/PIO_EP.vhd
+read_vhdl example_design/PIO_EP_MEM_ACCESS.vhd
+read_vhdl example_design/PIO_RX_ENGINE.vhd
+read_vhdl example_design/PIO_TO_CTRL.vhd
+read_vhdl example_design/PIO_TX_ENGINE.vhd
+read_vhdl example_design/pcie_app_7x.vhd
+read_vhdl example_design/xilinx_pcie_2_1_ep_7x.vhd
 
 synth_design -top top
 
