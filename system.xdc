@@ -5,8 +5,13 @@ set_property -dict {PACKAGE_PIN U14  IOSTANDARD LVCMOS33  PULLUP TRUE} [get_port
 set_property -dict {PACKAGE_PIN N1   IOSTANDARD LVCMOS33  PULLUP TRUE} [get_ports SDA1]
 set_property -dict {PACKAGE_PIN M1   IOSTANDARD LVCMOS33  PULLUP TRUE} [get_ports SCL1]
 
+set_property -dict {PACKAGE_PIN B6} [get_ports PCIERXP[0]]
+set_property -dict {PACKAGE_PIN B8} [get_ports PCIECLKP]
+
 set_property -dict {PACKAGE_PIN N18  IOSTANDARD LVCMOS33} [get_ports SYSLED]
 
 # 65 MHz nominal, +/- 50%  =>  32.5 - 97.5 MHz  =>  100 MHz
 create_clock -name sysclk -period 10.00 [get_pins startup/CFGMCLK]
+
+create_clock -name pcieclk -period 10 [get_ports PCIECLKP]
 
