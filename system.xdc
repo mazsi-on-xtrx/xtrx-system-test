@@ -1,4 +1,10 @@
 
+set_property -dict {PACKAGE_PIN R19  IOSTANDARD LVCMOS33  PULLUP TRUE} [get_ports PWRNRST]
+set_property -dict {PACKAGE_PIN U15  IOSTANDARD LVCMOS33  PULLUP TRUE} [get_ports SDA0]
+set_property -dict {PACKAGE_PIN U14  IOSTANDARD LVCMOS33  PULLUP TRUE} [get_ports SCL0]
+set_property -dict {PACKAGE_PIN N1   IOSTANDARD LVCMOS33  PULLUP TRUE} [get_ports SDA1]
+set_property -dict {PACKAGE_PIN M1   IOSTANDARD LVCMOS33  PULLUP TRUE} [get_ports SCL1]
+
 set_property -dict {PACKAGE_PIN N18  IOSTANDARD LVCMOS33} [get_ports SYSLED]
 
 # 65 MHz nominal, +/- 50%  =>  32.5 - 97.5 MHz  =>  100 MHz
