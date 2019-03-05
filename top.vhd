@@ -6,7 +6,7 @@
 -- Author     : mazsi-on-xtrx <@>
 -- Company    : 
 -- Created    : 2019-01-10
--- Last update: 2019-03-04
+-- Last update: 2019-03-05
 -- Platform   : 
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -23,6 +23,7 @@
 
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.std_logic_misc.all;
 use ieee.numeric_std.all;
 
 library UNISIM;
@@ -39,6 +40,12 @@ entity top is
     PWRNRST    : out   std_logic := '1';
     SDA0, SCL0 : inout std_logic := '1';
     SDA1, SCL1 : inout std_logic := '1';
+    ---------------------------------------------------------------------------
+    LMSNRST    : out   std_logic;
+    SS1        : out   std_logic;
+    SCK1       : out   std_logic;
+    MOSI1      : out   std_logic;
+    MISO1      : in    std_logic;
     ---------------------------------------------------------------------------
     PCIECLKP   : in    std_logic;
     PCIECLKN   : in    std_logic;
@@ -67,6 +74,10 @@ architecture imp of top is
   signal sda0t, sda0i, scl0t : std_logic;
   signal sda1t, sda1i, scl1t : std_logic;
 
+  signal spiout, spiin, spiinsav : std_logic_vector(31 downto 0) := (others => '0');
+  signal ssi, scki, mosii, misoi : std_logic;
+  signal sckfallen, spiok        : std_logic;
+
 begin
 
 
@@ -81,6 +92,7 @@ begin
 
   SYSLED <= c(21) when i2cbusy = '1' else
             '0'   when (i2cbusy = '0' and i2cok = '0') else
+            c(22) when spiok = '0' else
             '1';
 
 
@@ -147,6 +159,49 @@ begin
 
   SDA1 <= '0' when sda1t = '0' else 'Z';
   SCL1 <= '0' when scl1t = '0' else 'Z';
+
+
+
+
+
+  -----------------------------------------------------------------------------
+  -- SPI interface: query RF chip version / revision / mask from reg 0x002f
+  -----------------------------------------------------------------------------
+
+  LMSNRST <= not (i2cbusy or not i2cok);  -- keep reset pulled until after power sequence had completed
+
+  misoi <= MISO1;
+
+  process (clk) is
+    constant SPIADDR : std_logic_vector(31 downto 16) := x"002F";  -- reg address
+    constant SPIVAL  : std_logic_vector(15 downto 0)  := "0011100001000001";  -- expected val
+  begin
+    if clk'event and clk = '1' then
+
+      spiout <= SPIADDR & x"0000";
+
+      ssi   <= c(8) and c(7);
+      scki  <= not c(8) and c(7) and c(1);
+      mosii <= spiout(to_integer(not c(6 downto 2)));
+
+      sckfallen <= not c(8) and c(7) and c(1) and c(0);
+
+      if sckfallen = '1' then
+        spiin <= spiin(30 downto 0) & misoi;
+      end if;
+
+      if c(8 downto 0) = "101111111" then
+        spiinsav <= spiin;
+      end if;
+
+      spiok <= and_reduce(spiinsav(SPIVAL'range) xnor SPIVAL);
+
+    end if;
+  end process;
+
+  SS1   <= ssi;
+  SCK1  <= scki;
+  MOSI1 <= mosii;
 
 
 
