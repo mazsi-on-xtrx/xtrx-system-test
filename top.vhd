@@ -6,7 +6,7 @@
 -- Author     : mazsi-on-xtrx <@>
 -- Company    : 
 -- Created    : 2019-01-10
--- Last update: 2019-02-31
+-- Last update: 2019-03-04
 -- Platform   : 
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -39,6 +39,13 @@ entity top is
     PWRNRST    : out   std_logic := '1';
     SDA0, SCL0 : inout std_logic := '1';
     SDA1, SCL1 : inout std_logic := '1';
+    ---------------------------------------------------------------------------
+    PCIECLKP   : in    std_logic;
+    PCIECLKN   : in    std_logic;
+    PCIETXP    : out   std_logic_vector(0 downto 0);
+    PCIETXN    : out   std_logic_vector(0 downto 0);
+    PCIERXP    : in    std_logic_vector(0 downto 0);
+    PCIERXN    : in    std_logic_vector(0 downto 0);
     ---------------------------------------------------------------------------
     SYSLED     : out   std_logic
    ---------------------------------------------------------------------------
@@ -140,6 +147,25 @@ begin
 
   SDA1 <= '0' when sda1t = '0' else 'Z';
   SCL1 <= '0' when scl1t = '0' else 'Z';
+
+
+
+
+
+  -----------------------------------------------------------------------------
+  -- pcie endpoint
+  -----------------------------------------------------------------------------
+
+  pcie : entity work.xilinx_pcie_2_1_ep_7x
+    port map (
+      pci_exp_txp => PCIETXP,
+      pci_exp_txn => PCIETXN,
+      pci_exp_rxp => PCIERXP,
+      pci_exp_rxn => PCIERXN,
+      sys_clk_p   => PCIECLKP,
+      sys_clk_n   => PCIECLKN,
+      sys_rst_n   => '1'
+      );
 
 
 
