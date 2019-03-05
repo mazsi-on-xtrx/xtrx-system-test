@@ -5,6 +5,12 @@ set_property -dict {PACKAGE_PIN U14  IOSTANDARD LVCMOS33  PULLUP TRUE} [get_port
 set_property -dict {PACKAGE_PIN N1   IOSTANDARD LVCMOS33  PULLUP TRUE} [get_ports SDA1]
 set_property -dict {PACKAGE_PIN M1   IOSTANDARD LVCMOS33  PULLUP TRUE} [get_ports SCL1]
 
+set_property -dict {PACKAGE_PIN U19  IOSTANDARD LVCMOS33  PULLUP TRUE} [get_ports LMSNRST]
+set_property -dict {PACKAGE_PIN W13  IOSTANDARD LVCMOS33  PULLUP TRUE} [get_ports SS1]
+set_property -dict {PACKAGE_PIN W14  IOSTANDARD LVCMOS33  PULLUP TRUE} [get_ports SCK1]
+set_property -dict {PACKAGE_PIN W15  IOSTANDARD LVCMOS33  PULLUP TRUE} [get_ports MISO1]
+set_property -dict {PACKAGE_PIN W16  IOSTANDARD LVCMOS33  PULLUP TRUE} [get_ports MOSI1]
+
 set_property -dict {PACKAGE_PIN B6} [get_ports PCIERXP[0]]
 set_property -dict {PACKAGE_PIN B8} [get_ports PCIECLKP]
 
