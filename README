@@ -13,3 +13,9 @@ no reason that the applied settings are correct.
 
 please use the design only if you know very well what you are doing.
 
+
+to build the project from command line (replace 'batch' with 'gui' if preferred):
+
+        vivado -mode batch -source nonproj.tcl
+
+
