@@ -1,0 +1,15 @@
+
+integrated test design for the XTRX CS FPGA board.
+
+
+this design can kill your hardware, use it at your own risk!
+
+seriously: the design reconfigures the on-board Power Manager ICs (PMICs). wrong
+settings or a configuration error can result in incorrect voltage on the power
+rails, literally frying on-board components.
+
+also, the design was created without documentation on the hardware, so there is
+no reason that the applied settings are correct.
+
+please use the design only if you know very well what you are doing.
+
