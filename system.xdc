@@ -55,3 +55,17 @@ create_clock -name pcieclk -period 10 [get_ports PCIECLKP]
 # 26 MHz VCTXCO - make it 26.315 to cover all varations
 create_clock -name clk026 -period 38.00 [get_ports CLK026IN]
 
+# 60 MHz clk returned by USB PHY over ULPI interface
+create_clock -name usbclk -period 16.666 [get_ports USBCLK]
+
+# input min and output min are not stated in specification, so assuming 0ns
+set_input_delay -clock usbclk -max 9.0 [get_ports {USBDIR USBNXT USBD[*]}]
+set_input_delay -clock usbclk -min 0.0 [get_ports {USBDIR USBNXT USBD[*]}]
+set_output_delay -clock usbclk -max 6.0 [get_ports {USBSTP USBD[*]}]
+set_output_delay -clock usbclk -min 0.0 [get_ports {USBSTP USBD[*]}]
+
+# whenever USBDIR changes, there is an extra USBCLK time for turnaround
+set_multicycle_path -from [get_ports USBDIR] -to [get_port USBD[*]] -setup 2
+set_multicycle_path -from [get_ports USBDIR] -to [get_port USBD[*]] -hold 1
+
+
