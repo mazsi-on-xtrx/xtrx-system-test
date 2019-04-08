@@ -37,3 +37,6 @@ create_clock -name sysclk -period 10.00 [get_pins startup/CFGMCLK]
 
 create_clock -name pcieclk -period 10 [get_ports PCIECLKP]
 
+# 26 MHz VCTXCO - make it 26.315 to cover all varations
+create_clock -name clk026 -period 38.00 [get_ports CLK026IN]
+
