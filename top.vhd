@@ -6,7 +6,7 @@
 -- Author     : mazsi-on-xtrx <@>
 -- Company    : 
 -- Created    : 2019-01-10
--- Last update: 2019-03-05
+-- Last update: 2019-04-30
 -- Platform   : 
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -108,6 +108,11 @@ architecture imp of top is
   signal utmi_dppulldown                     : std_logic;
   signal utmi_dmpulldown                     : std_logic;
   signal utmi_linestate                      : std_logic_vector(1 downto 0);
+  --
+  signal usbreset, usbhs, usbsusp, usbonline : std_logic;
+
+  signal rdy, val : std_logic;
+  signal dat      : std_logic_vector(7 downto 0);
 
   signal spiout, spiin, spiinsav : std_logic_vector(31 downto 0) := (others => '0');
   signal ssi, scki, mosii, misoi : std_logic;
@@ -128,7 +133,7 @@ begin
   SYSLED <= c(21) when i2cbusy = '1' else
             '0'   when (i2cbusy = '0' and i2cok = '0') else
             c(22) when spiok = '0' else
-            '1';
+            usbonline;
 
 
 
@@ -234,6 +239,52 @@ begin
       utmi_drv_vbus    => '0',
       utmi_datain      => utmi_data_in,
       utmi_dataout     => utmi_data_out
+      );
+
+
+  serial : entity work.usb_serial
+    generic map (
+      VENDORID       => X"fb9a",
+      PRODUCTID      => X"fb9a",
+      VERSIONBCD     => X"0031",
+      VENDORSTR      => "mazsi-on-xtrx",
+      PRODUCTSTR     => "xtrx gps to usb serial interface",
+      SERIALSTR      => "v20190501",
+      HSSUPPORT      => true,
+      SELFPOWERED    => true,
+      RXBUFSIZE_BITS => 10,
+      TXBUFSIZE_BITS => 10
+      )
+    port map (
+      CLK            => USBCLK,
+      RESET          => i2cbusy,
+      USBRST         => usbreset,
+      HIGHSPEED      => usbhs,
+      SUSPEND        => usbsusp,
+      ONLINE         => usbonline,
+      --
+      PHY_DATAIN     => utmi_data_in,
+      PHY_DATAOUT    => utmi_data_out,
+      PHY_TXVALID    => utmi_txvalid,
+      PHY_TXREADY    => utmi_txready,
+      PHY_RXACTIVE   => utmi_rxactive,
+      PHY_RXVALID    => utmi_rxvalid,
+      PHY_RXERROR    => utmi_rxerror,
+      PHY_LINESTATE  => utmi_linestate,
+      PHY_OPMODE     => utmi_op_mode,
+      PHY_XCVRSELECT => utmi_xcvrselect(0),
+      PHY_TERMSELECT => utmi_termselect,
+      PHY_RESET      => utmi_reset,
+      --
+      RXVAL          => val,
+      RXDAT          => dat,
+      RXRDY          => rdy,
+      RXLEN          => open,
+      TXVAL          => val,
+      TXDAT          => dat,
+      TXRDY          => rdy,
+      TXROOM         => open,
+      TXCORK         => '0'
       );
 
 
