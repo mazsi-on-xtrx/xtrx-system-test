@@ -46,6 +46,14 @@ entity top is
     CLK026SEL  : out   std_logic := '0';
     CLK026IN   : in    std_logic;
     ---------------------------------------------------------------------------
+    USBREF026  : out   std_logic;
+    USBNRST    : out   std_logic := '1';
+    USBCLK     : in    std_logic := '1';
+    USBSTP     : out   std_logic;
+    USBDIR     : in    std_logic;
+    USBNXT     : in    std_logic;
+    USBD       : inout std_logic_vector(7 downto 0);
+    ---------------------------------------------------------------------------
     LMSNRST    : out   std_logic;
     SS1        : out   std_logic;
     SCK1       : out   std_logic;
