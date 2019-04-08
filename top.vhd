@@ -37,11 +37,14 @@ entity top is
 
   port (
     ---------------------------------------------------------------------------
-    PWRNRST    : out   std_logic := '1';
     SDA0, SCL0 : inout std_logic := '1';
     SDA1, SCL1 : inout std_logic := '1';
     ---------------------------------------------------------------------------
     GPIO       : inout std_logic_vector(11 downto 0);
+    ---------------------------------------------------------------------------
+    CLK026EN   : out   std_logic := '1';
+    CLK026SEL  : out   std_logic := '0';
+    CLK026IN   : in    std_logic;
     ---------------------------------------------------------------------------
     LMSNRST    : out   std_logic;
     SS1        : out   std_logic;
