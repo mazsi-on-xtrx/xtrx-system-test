@@ -9,6 +9,13 @@ read_vhdl xtrxinit.vhd
 
 read_vhdl ulpi_port.vhdl
 
+read_vhdl usb_pkg.vhdl
+read_vhdl usb_init.vhdl
+read_vhdl usb_packet.vhdl
+read_vhdl usb_transact.vhdl
+read_vhdl usb_control.vhdl
+read_vhdl usb_serial.vhdl
+
 read_vhdl top.vhd
 read_xdc system.xdc
 read_xdc bitconfig.xdc
