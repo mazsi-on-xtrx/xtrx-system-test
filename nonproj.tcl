@@ -38,4 +38,5 @@ report_utilization -file top_utilization_placed.rpt
 report_io -file top_io_placed.rpt
 
 write_bitstream -force -bin_file top.bit
+write_debug_probes -force top.ltx
 
