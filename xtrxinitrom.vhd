@@ -6,7 +6,7 @@
 -- Author     : mazsi-on-xtrx <>
 -- Company    : 
 -- Created    : 2019-02-21
--- Last update: 2019-03-05
+-- Last update: 2019-04-10
 -- Platform   : 
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -19,6 +19,7 @@
 -- Revisions  :
 -- Date        Author  Description
 -- 2019-02-21  mazsi   Created
+-- 2019-04-10  mazsi   PMICF: set buck1 to 3280 mV (was 1800 mV)
 -------------------------------------------------------------------------------
 
 library ieee;
@@ -1942,7 +1943,7 @@ begin
         when x"e85" => qpre <= "0110";
         when x"e86" => qpre <= "0110";
         when x"e87" => qpre <= "0110";
-        -- PMICF: set buck1 to 1800 mV
+        -- PMICF: set buck1 to 3280 mV
         when x"f00" => qpre <= "1110";
         when x"f01" => qpre <= "1110";
         when x"f02" => qpre <= "1110";
@@ -2035,10 +2036,10 @@ begin
         when x"f59" => qpre <= "1110";
         when x"f5a" => qpre <= "1110";
         when x"f5b" => qpre <= "1010";
-        when x"f5c" => qpre <= "1000";
-        when x"f5d" => qpre <= "1100";
-        when x"f5e" => qpre <= "1100";
-        when x"f5f" => qpre <= "1000";
+        when x"f5c" => qpre <= "1010";
+        when x"f5d" => qpre <= "1110";
+        when x"f5e" => qpre <= "1110";
+        when x"f5f" => qpre <= "1010";
         when x"f60" => qpre <= "1010";
         when x"f61" => qpre <= "1110";
         when x"f62" => qpre <= "1110";
@@ -2047,18 +2048,18 @@ begin
         when x"f65" => qpre <= "1110";
         when x"f66" => qpre <= "1110";
         when x"f67" => qpre <= "1010";
-        when x"f68" => qpre <= "1000";
-        when x"f69" => qpre <= "1100";
-        when x"f6a" => qpre <= "1100";
-        when x"f6b" => qpre <= "1000";
+        when x"f68" => qpre <= "1010";
+        when x"f69" => qpre <= "1110";
+        when x"f6a" => qpre <= "1110";
+        when x"f6b" => qpre <= "1010";
         when x"f6c" => qpre <= "1000";
         when x"f6d" => qpre <= "1100";
         when x"f6e" => qpre <= "1100";
         when x"f6f" => qpre <= "1000";
-        when x"f70" => qpre <= "1000";
-        when x"f71" => qpre <= "1100";
-        when x"f72" => qpre <= "1100";
-        when x"f73" => qpre <= "1000";
+        when x"f70" => qpre <= "1010";
+        when x"f71" => qpre <= "1110";
+        when x"f72" => qpre <= "1110";
+        when x"f73" => qpre <= "1010";
         when x"f74" => qpre <= "1010";
         when x"f75" => qpre <= "1110";
         when x"f76" => qpre <= "1110";
@@ -2089,5 +2090,3 @@ begin
   end process;
 
 end architecture imp;
-
-
