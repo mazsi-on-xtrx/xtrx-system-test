@@ -41,6 +41,8 @@ entity top is
     SDA0, SCL0 : inout std_logic := '1';
     SDA1, SCL1 : inout std_logic := '1';
     ---------------------------------------------------------------------------
+    GPIO       : inout std_logic_vector(11 downto 0);
+    ---------------------------------------------------------------------------
     LMSNRST    : out   std_logic;
     SS1        : out   std_logic;
     SCK1       : out   std_logic;
