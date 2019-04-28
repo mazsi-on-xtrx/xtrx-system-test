@@ -83,6 +83,11 @@ end top;
 
 architecture imp of top is
 
+  alias UARTRX : std_logic is GPIO(11);
+  alias UARTTX : std_logic is GPIO(10);
+  alias LEDY   : std_logic is GPIO(9);
+  alias LEDR   : std_logic is GPIO(8);
+
   signal arstn, clk : std_logic;
   signal c          : unsigned(24 downto 0) := (others => '0');
 
@@ -201,6 +206,22 @@ begin
 
   SDA1 <= '0' when sda1t = '0' else 'Z';
   SCL1 <= '0' when scl1t = '0' else 'Z';
+
+
+
+
+
+  -----------------------------------------------------------------------------
+  -- various GPIO
+  -----------------------------------------------------------------------------
+
+  UARTRX <= 'Z';
+  UARTTX <= GPSTX;
+
+  LEDY <= usbhs;
+  LEDR <= usbonline;
+
+  GPIO(7 downto 0) <= "ZZZZZZZZ";
 
 
 
