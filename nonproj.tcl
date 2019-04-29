@@ -16,6 +16,8 @@ read_vhdl usb_transact.vhdl
 read_vhdl usb_control.vhdl
 read_vhdl usb_serial.vhdl
 
+read_vhdl thinuart.vhd
+
 read_vhdl top.vhd
 read_xdc system.xdc
 read_xdc bitconfig.xdc
