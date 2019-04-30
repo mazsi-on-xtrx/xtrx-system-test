@@ -32,7 +32,7 @@ port(
 	utmi_rxvalid     : out std_logic := '0';
 	utmi_rxactive    : out std_logic := '0';
 	utmi_rxerror     : out std_logic := '0';
-	utmi_host_datapd : in  std_logic := '0';
+	utmi_host_datapd : in  std_logic_vector(2 downto 1) := "00";
 	utmi_drv_vbus    : in  std_logic := '0';
 	utmi_datain      : out std_logic_vector(7 downto 0) := x"00";
 	utmi_dataout     : in  std_logic_vector(7 downto 0)
@@ -47,7 +47,7 @@ signal opmode_d     : std_logic_vector(1 downto 0) := "00";
 
 signal dir_d : std_logic := '0';
 
-signal host_datapd_d : std_logic := '0';
+signal host_datapd_d : std_logic_vector(2 downto 1) := "00";
 signal drv_vbus_d    : std_logic := '0';
 
 signal ulpi_control   : std_logic_vector(7 downto 0) := x"41";
@@ -99,7 +99,7 @@ begin
 		opmode_d     <= utmi_opmode;
 		
 		if utmi_host_datapd /= host_datapd_d then
-			ulpi_otg_control(2 downto 1) <= utmi_host_datapd & utmi_host_datapd;
+			ulpi_otg_control(2 downto 1) <= utmi_host_datapd;
 			otg_control_update <= '1';
 		end if;
 		if utmi_drv_vbus /= drv_vbus_d then
