@@ -91,6 +91,24 @@ architecture imp of top is
   signal sda0t, sda0i, scl0t : std_logic;
   signal sda1t, sda1i, scl1t : std_logic;
 
+  -- ULPI interface
+  signal usbdout                             : std_logic_vector(7 downto 0);
+  -- UTMI interface (SIE)
+  signal utmi_reset                          : std_logic;
+  signal utmi_txvalid                        : std_logic;
+  signal utmi_txready                        : std_logic;
+  signal utmi_rxvalid                        : std_logic;
+  signal utmi_rxactive                       : std_logic;
+  signal utmi_rxerror                        : std_logic;
+  signal utmi_data_in                        : std_logic_vector(7 downto 0);
+  signal utmi_data_out                       : std_logic_vector(7 downto 0);
+  signal utmi_xcvrselect                     : std_logic_vector(1 downto 0) := "00";
+  signal utmi_termselect                     : std_logic;
+  signal utmi_op_mode                        : std_logic_vector(1 downto 0);
+  signal utmi_dppulldown                     : std_logic;
+  signal utmi_dmpulldown                     : std_logic;
+  signal utmi_linestate                      : std_logic_vector(1 downto 0);
+
   signal spiout, spiin, spiinsav : std_logic_vector(31 downto 0) := (others => '0');
   signal ssi, scki, mosii, misoi : std_logic;
   signal sckfallen, spiok        : std_logic;
@@ -176,6 +194,47 @@ begin
 
   SDA1 <= '0' when sda1t = '0' else 'Z';
   SCL1 <= '0' when scl1t = '0' else 'Z';
+
+
+
+
+
+  -----------------------------------------------------------------------------
+  -- usb connections
+  -----------------------------------------------------------------------------
+
+  USBNRST   <= not i2cbusy when rising_edge(CLK);
+  USBREF026 <= CLK026IN;
+
+
+  USBD <= usbdout when USBDIR = '0' else (others => 'Z');
+
+  ulpiwrapper : entity work.ulpi_port
+    port map (
+      ulpi_data_in     => USBD,
+      ulpi_data_out    => usbdout,
+      ulpi_dir         => USBDIR,
+      ulpi_nxt         => USBNXT,
+      ulpi_stp         => USBSTP,
+      ulpi_reset       => open,         -- not driven
+      ulpi_clk60       => USBCLK,
+      --
+      utmi_reset       => utmi_reset,
+      utmi_xcvrselect  => utmi_xcvrselect,
+      utmi_termselect  => utmi_termselect,
+      utmi_opmode      => utmi_op_mode,
+      utmi_linestate   => utmi_linestate,
+      utmi_clkout      => open,         -- identical to ulpi_clk60
+      utmi_txvalid     => utmi_txvalid,
+      utmi_txready     => utmi_txready,
+      utmi_rxvalid     => utmi_rxvalid,
+      utmi_rxactive    => utmi_rxactive,
+      utmi_rxerror     => utmi_rxerror,
+      utmi_host_datapd => utmi_dmpulldown & utmi_dmpulldown,
+      utmi_drv_vbus    => '0',
+      utmi_datain      => utmi_data_in,
+      utmi_dataout     => utmi_data_out
+      );
 
 
 
