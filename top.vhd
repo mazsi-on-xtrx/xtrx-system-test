@@ -295,8 +295,8 @@ begin
       CLK   => USBCLK,
       RST   => usbreset,
       --
-      RX    => lo,
-      TX    => lo,
+      RX    => GPSTX,
+      TX    => GPSRX,
       --
       START => rxval,
       BUSY  => rxrdyn,
