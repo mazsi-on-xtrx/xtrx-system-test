@@ -22,7 +22,7 @@ port(
 	ulpi_clk60    : in  std_logic;
 
 	utmi_reset       : in  std_logic;
-	utmi_xcvrselect  : in  std_logic;
+	utmi_xcvrselect  : in  std_logic_vector(1 downto 0);
 	utmi_termselect  : in  std_logic;
 	utmi_opmode      : in  std_logic_vector(1 downto 0);
 	utmi_linestate   : out std_logic_vector(1 downto 0) := "00";
@@ -41,7 +41,7 @@ end ulpi_port;
 
 architecture behave of ulpi_port is
 
-signal xcvrselect_d : std_logic := '1';
+signal xcvrselect_d : std_logic_vector(1 downto 0) := "01";
 signal termselect_d : std_logic := '0';
 signal opmode_d     : std_logic_vector(1 downto 0) := "00";
 
@@ -82,7 +82,7 @@ begin
 		ulpi_rxvalid  <= '0';
 
 		if utmi_xcvrselect /= xcvrselect_d then
-			ulpi_control(0) <= utmi_xcvrselect;
+			ulpi_control(1 downto 0) <= utmi_xcvrselect;
 			control_update  <= '1';
 		end if;
 		if utmi_termselect /= termselect_d then
