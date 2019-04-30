@@ -111,8 +111,10 @@ architecture imp of top is
   --
   signal usbreset, usbhs, usbsusp, usbonline : std_logic;
 
-  signal rdy, val : std_logic;
-  signal dat      : std_logic_vector(7 downto 0);
+  signal rxrdyn, rxval, txval : std_logic;
+  signal rxdat, txdat         : std_logic_vector(7 downto 0);
+
+  signal lo : std_logic;
 
   signal spiout, spiin, spiinsav : std_logic_vector(31 downto 0) := (others => '0');
   signal ssi, scki, mosii, misoi : std_logic;
@@ -276,15 +278,32 @@ begin
       PHY_TERMSELECT => utmi_termselect,
       PHY_RESET      => utmi_reset,
       --
-      RXVAL          => val,
-      RXDAT          => dat,
-      RXRDY          => rdy,
+      RXVAL          => rxval,
+      RXDAT          => rxdat,
+      RXRDY          => not rxrdyn,
       RXLEN          => open,
-      TXVAL          => val,
-      TXDAT          => dat,
-      TXRDY          => rdy,
+      TXVAL          => txval,
+      TXDAT          => txdat,
+      TXRDY          => open,           -- ignored
       TXROOM         => open,
       TXCORK         => '0'
+      );
+
+
+  uart : entity work.thinuart generic map (CLKFREQ => 60_000_000, BAUDRATE => 9600, TXWIDTH => 8, RXWIDTH => 8)
+    port map (
+      CLK   => USBCLK,
+      RST   => usbreset,
+      --
+      RX    => lo,
+      TX    => lo,
+      --
+      START => rxval,
+      BUSY  => rxrdyn,
+      D     => rxdat,
+      --
+      DONE  => txval,
+      Q     => txdat
       );
 
 
