@@ -42,6 +42,10 @@ entity top is
     ---------------------------------------------------------------------------
     GPIO       : inout std_logic_vector(11 downto 0);
     ---------------------------------------------------------------------------
+    GPS1PPS    : in    std_logic;
+    GPSTX      : in    std_logic;
+    GPSRX      : out   std_logic := '1';
+    ---------------------------------------------------------------------------
     CLK026EN   : out   std_logic := '1';
     CLK026SEL  : out   std_logic := '0';
     CLK026IN   : in    std_logic;
