@@ -3,8 +3,12 @@
 #
 
 #read_verilog file.v
+
 read_vhdl xtrxinitrom.vhd
 read_vhdl xtrxinit.vhd
+
+read_vhdl ulpi_port.vhdl
+
 read_vhdl top.vhd
 read_xdc system.xdc
 read_xdc bitconfig.xdc
